@@ -55,6 +55,7 @@ const Navbar = observer(() => {
                 variant="solid" 
                 size="sm" 
                 ml={4}
+                sx={{ textTransform: 'uppercase' }}
                 onClick={logOut}
               >
                 Logout
@@ -67,6 +68,7 @@ const Navbar = observer(() => {
                 variant="solid" 
                 size="sm" 
                 ml={4}
+                sx={{ textTransform: 'uppercase' }}
                 onClick={() => navigate(LOGIN_ROUTE)} 
               >
                 Login

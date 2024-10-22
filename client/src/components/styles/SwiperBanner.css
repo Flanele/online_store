@@ -1,0 +1,48 @@
+.swiper-pagination-bullet-active {
+    background-color: black; 
+}
+
+.banner__container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.main-slide {
+    background-color: #E9ADAA;
+}
+
+.slide__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+.main-slide__text {
+    color: #ECF1F4;
+    font-size: 48px;
+}
+
+.second-slide {
+    background-color: #E7ADA9;
+    justify-content: start;
+}
+
+.fourth-slide {
+    background-color: #F57D86;
+}
+
+.fourth-slide__container {
+   position: 'relative';
+    height: '100%';
+}
+
+.fourth-slide__img {
+    margin-right: 120px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+
+
