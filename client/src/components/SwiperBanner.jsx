@@ -16,7 +16,7 @@ import img4 from '../assets/banner_img-4.jpg';
 import img5 from '../assets/banner_img-5.jpg';
 import img6 from '../assets/banner_img-6.jpg';
 import img7 from '../assets/banner_img-7.jpg';
-import img8 from '../assets/banner_img-8.jpg';
+import img8 from '../assets/banner_img-8.png';
 import { Button, Text } from '@chakra-ui/react';
 
 export default function SwiperBanner() {
@@ -86,7 +86,7 @@ export default function SwiperBanner() {
         <SwiperSlide>
             <div className="banner__container fourth-slide">
                 <img src={img7} />
-                <div classNmae="fourth-slide__container">
+                <div className="fourth-slide__container">
                     <img src={img8} className="fourth-slide__img" />
                 </div>
             </div>

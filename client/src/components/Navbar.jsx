@@ -27,7 +27,7 @@ const Navbar = observer(() => {
       <Container maxW="1200px">
         <Flex gap='2' alignItems="center">
           <Heading color="white" size="lg" p={1}>
-            <NavLink to={SHOP_ROUTE} style={{ color: 'white', textDecoration: 'none' }}>OnlineStore</NavLink>
+            <NavLink to={SHOP_ROUTE} style={{ color: 'white', textDecoration: 'none' }}>GlowShop</NavLink>
           </Heading>
           <Spacer />
           {user.isAuth ? (

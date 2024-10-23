@@ -7,7 +7,7 @@ router.post('/', checkRole('ADMIN'), itemController.create);
 router.get('/', itemController.getAll);
 router.get('/:id', itemController.getOne);
 router.delete('/:id', itemController.removeItem);
-router.patch('/item/:id', itemController.updateItem);
+router.patch('/:id', itemController.updateItem);
 
 router.post('/:id/rating', authMiddleware, itemController.addRating);
 router.get('/:id/ratings', itemController.getRatings);
