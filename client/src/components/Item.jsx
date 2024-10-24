@@ -62,7 +62,7 @@ const Item = ({ item }) => {
                     width="full"
                     textTransform="uppercase"
                     color="white"
-                    _hover={{ backgroundColor: "gray.700" }}
+                    _hover={{ backgroundColor: "gray.600" }}
                 >
                     ADD TO BAG
                 </Button>

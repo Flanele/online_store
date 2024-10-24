@@ -5,7 +5,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-import './styles/SwiperBanner.css'
+import './styles/SwiperBanner.css';
 
 import { Pagination, Navigation, Autoplay } from 'swiper/modules';
 

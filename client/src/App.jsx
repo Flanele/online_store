@@ -6,6 +6,8 @@ import { useContext, useEffect, useState } from "react";
 import { Context } from "./main";
 import { check } from "./http/userAPI";
 import { Spinner } from "@chakra-ui/react";
+import Footer from "./components/Footer";
+import './App.css';
 
 const App = observer (() => {
 
@@ -30,8 +32,11 @@ const App = observer (() => {
     <>
 
         <Navbar />
-        <Promotion />
-        <AppRouter />
+        <main>
+          <Promotion />
+          <AppRouter />
+        </main>       
+        <Footer />
     
     </>
   )
