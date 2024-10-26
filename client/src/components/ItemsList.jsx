@@ -6,7 +6,7 @@ import { Context } from '../main';
 
 const ItemsList = observer(({ items }) => {
     return (
-        <Flex wrap="wrap" mt={4} gap={4}>
+        <Flex wrap="wrap" mt={4} gap={6}>
             {items.map(item => 
                 <Item key={item.id} item={item} />
             )}

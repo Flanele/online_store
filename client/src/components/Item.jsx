@@ -1,16 +1,32 @@
 import { Box, Image, Text, Flex, Button, Heading } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import star from '../assets/star.svg';
 import heart from '../assets/heart.svg'; 
+import { fetchBrand } from '../http/brandAPI';
+import { ITEM_ROUTE } from '../utils/consts';
 const apiUrl = import.meta.env.VITE_APP_API_URL;
 
 const Item = ({ item }) => {
+    const [brandName, setBrandName] = useState('');
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const getBrand = async () => {
+            try {
+                const brand = await fetchBrand(item.brandId); 
+                setBrandName(brand.name); 
+            } catch (error) {
+                console.error("Error fetching brand:", error);
+            }
+        };
+
+        getBrand();
+    }, [item.brandId]);
 
     return (
         <Box
-            onClick={() => navigate(DEVICE_ROUTE + '/' + item.id)}
+            onClick={() => navigate(ITEM_ROUTE + '/' + item.id)}
             width="250px" 
             borderWidth="1px"
             borderRadius="lg"
@@ -47,7 +63,7 @@ const Item = ({ item }) => {
             <Box p={2}>
                 <Flex justifyContent="space-between" alignItems="center">
                     <Heading fontSize="28px" fontWeight="semibold">
-                        Brand
+                    {brandName || 'Loading...'}
                     </Heading>
                     <Flex alignItems="center">
                         <Text fontSize="sm">{item.rating}</Text>

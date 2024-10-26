@@ -26,7 +26,7 @@ const Shop = observer(() => {
                 <SwiperBanner />
                 <SearchSection onSearch={handleSearch} /> 
                 <Flex>
-                    <Box width="430px" p={4} mr={6}>
+                    <Box width="450px" p={4} mr={10}>
                         <TypeBar />
                     </Box>
                     <Box flex="1" p={4}>

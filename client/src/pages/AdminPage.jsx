@@ -2,6 +2,7 @@ import { Button, Container, Flex } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import AddNewType from '../components/modals/AddNewType';
 import AddNewBrand from '../components/modals/AddNewBrand';
+import AddNewItem from '../components/modals/AddNewItem';
 
 const AdminPage = () => {
     const [typeVisible, setTypeVisible] = useState(false);
@@ -34,6 +35,7 @@ const AdminPage = () => {
                     color="white" 
                     bg="black" 
                     _hover={{ bg: "gray.700" }} 
+                    onClick={() => setItemVisible(true)}
                 >
                     Add new product
                 </Button>
@@ -41,6 +43,7 @@ const AdminPage = () => {
 
             <AddNewType show={typeVisible} onClose={() => setTypeVisible(false)} />
             <AddNewBrand show={brandVisible} onClose={() => setBrandVisible(false)} />
+            <AddNewItem show={itemVisible} onClose={() => setItemVisible(false)} />
         </Container>
     )
 };

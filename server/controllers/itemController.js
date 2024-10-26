@@ -5,40 +5,48 @@ const path = require('path');
 const fs = require('fs');
 
 class ItemController {
-    async create (req, res, next) {
+    async create(req, res, next) {
         try {
-            let {name, price, brandId, typeId, info} = req.body;
-
-            const {img} = req.files;
+            let { name, price, brandId, typeId, info } = req.body;
+            const { img } = req.files;
+    
+            console.log('Received data:', { name, price, brandId, typeId, info });
+    
             let filename = uuidv4() + ".jpg";
             const staticPath = path.resolve(__dirname, '..', 'static');
-
+    
             if (!fs.existsSync(staticPath)) {
                 fs.mkdirSync(staticPath);
             }
-
-            img.mv(path.resolve(staticPath, filename));
-
+    
+            await img.mv(path.resolve(staticPath, filename));
+    
             const item = await Item.create({ name, price, brandId, typeId, img: filename });
-
+    
+            console.log('Created Item:', item);
+    
             if (info) {
                 info = JSON.parse(info);
+                console.log('Parsed info:', info);
                 info.forEach(i => 
                     ItemInfo.create({
                         title: i.title,
                         description: i.description,
-                        ItemId: item.id
+                        itemId: item.id
                     })
                 );
-            }
 
+            };
+    
             return res.status(201).json(item);
-
+    
         } catch (e) {
+            console.error(e);
             next(ApiError.badRequest(e.message));
         }
     }
-
+    
+    
     async getAll (req, res) {
         let {brandId, typeId, limit, page} = req.query;
         page = page || 1;
@@ -72,6 +80,10 @@ class ItemController {
             include: [{model: ItemInfo, as: 'info'}]
         });
 
+        if (!id) {
+            return next(ApiError.badRequest('ID is required'));
+        }
+
         return res.status(200).json(item);
     }
 
@@ -90,7 +102,7 @@ class ItemController {
             item.price = price || item.price;
             item.brandId = brandId || item.brandId;
             item.typeId = typeId || item.typeId;
-
+    
             if (req.files && req.files.img) {
                 const { img } = req.files;
                 let filename = uuidv4() + ".jpg";
@@ -109,9 +121,18 @@ class ItemController {
             if (info) {
                 info = JSON.parse(info);
     
-                info.forEach(async (i) => {
+                const existingInfos = await ItemInfo.findAll({ where: { itemId: id } });
+    
+                for (const existingInfo of existingInfos) {
+                    const isNewDescription = info.find(i => i.title === existingInfo.title);
+                    if (!isNewDescription) {
+                        await existingInfo.destroy();
+                    }
+                }
+    
+                for (const i of info) {
                     let existingInfo = await ItemInfo.findOne({
-                        where: { ItemId: id, title: i.title }
+                        where: { itemId: id, title: i.title }
                     });
     
                     if (existingInfo) {
@@ -121,18 +142,18 @@ class ItemController {
                         await ItemInfo.create({
                             title: i.title,
                             description: i.description,
-                            ItemId: id
+                            itemId: id
                         });
                     }
-                });
+                }
             }
     
             return res.status(200).json(item);
-    
         } catch (e) {
             next(ApiError.badRequest(e.message));
         }
     }
+    
     
 
     async removeItem (req, res, next) {

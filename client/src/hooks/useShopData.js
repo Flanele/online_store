@@ -30,7 +30,7 @@ const useShopData = () => {
             item.setItems(data.rows);
             item.setTotalCount(data.count);
         });
-    }, [typeId, brandId, item.page]);
+    }, [typeId, brandId, item.page, item.limit]);
 
     return {item};
 
