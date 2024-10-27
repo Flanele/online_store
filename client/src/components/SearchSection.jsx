@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import bag from '../assets/bag.svg';
-import heart from '../assets/heart.svg';
 import search from '../assets/search.svg';
 import './styles/SearchSection.css';
+import UserOptions from './UserOptions';
 
 const SearchSection = ({ onSearch }) => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -30,12 +29,7 @@ const SearchSection = ({ onSearch }) => {
                 onChange={handleSearchChange} 
             />
             <img className="search__icon" src={search} alt="search icon" />         
-            <button className="search__btn">
-                <img className="search__icon-bag" src={bag} alt="bag icon" />
-            </button>
-            <button className="search__btn">
-                <img className="search__icon-heart" src={heart} alt="heart icon" />
-            </button>                     
+            <UserOptions />                    
         </div>
     );
 };

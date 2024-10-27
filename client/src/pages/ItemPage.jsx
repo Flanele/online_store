@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { fetchOneItem, updateItem } from '../http/itemAPI';
 import { Box, Button, Container, Flex, Image, Spinner } from '@chakra-ui/react';
 import { fetchBrand } from '../http/brandAPI';
@@ -9,8 +9,12 @@ import ItemAccordion from '../components/ItemAccordion';
 import ItemDetails from '../components/ItemDetails';
 import EditItem from '../components/modals/EditItem';
 import { observer } from 'mobx-react-lite';
+import { Context } from '../main';
+import { LOGIN_ROUTE } from '../utils/consts';
+import SwiperProducts from '../components/SwiperProducts';
+import UserOptions from '../components/UserOptions';
 
-const Item = observer(() => {
+const ItemPage = observer(() => {
     const [loading, setLoading] = useState(true);
     const [item, setItem] = useState({ info: [] });
     const [brandName, setBrandName] = useState('');
@@ -18,8 +22,20 @@ const Item = observer(() => {
     const [imageSrc, setImageSrc] = useState('');
     const { id } = useParams();
 
+    const {user} = useContext(Context);
+    const navigate = useNavigate();
+    const isAuth = user.isAuth;
+
     const openModal = () => setModalOpen(true);
     const closeModal = () => setModalOpen(false);
+
+    const handleEditClick = () => {
+        if (!isAuth) {
+            navigate(LOGIN_ROUTE);
+        } else {
+            openModal();
+        }
+    };
 
     useEffect(() => {
         const getItem = async () => {
@@ -70,15 +86,19 @@ const Item = observer(() => {
     };
 
     return (
+        <>
         <Container maxW="1200px">
-            <Flex mt={10} gap="160px" alignItems="flex-start">
+            <Box mt={10}>
+                 <UserOptions />
+            </Box>          
+            <Flex mt={20} gap="160px" alignItems="flex-start">
                 <Image 
                     w="500px" 
                     h="500px" 
                     src={imageSrc} 
                     objectFit="cover" 
                 />
-                <Box mt={20} maxW="500px" minW="500px"> 
+                <Box mt={15} maxW="500px" minW="500px"> 
                     <ItemDetails 
                         name={item.name} 
                         brandName={brandName} 
@@ -88,7 +108,7 @@ const Item = observer(() => {
 
                     <Box>
                         <ItemAccordion info={item.info} />
-                        <Button mt={7} ml="auto" display="block" size="xs" onClick={openModal} >Edit description</Button>
+                        <Button mt={7} ml="auto" display="block" size="xs" variant="outline" onClick={handleEditClick} >Edit description</Button>
                     </Box>
                 </Box>
             </Flex>
@@ -98,9 +118,17 @@ const Item = observer(() => {
                 itemData={item}
                 onSave={handleSave}
             />
+            
         </Container>
+
+        <Container maxW="1400px">
+            <Box mt="110px">
+                <SwiperProducts />
+            </Box>
+        </Container>
+        </>
     );
 });
 
 
-export default Item;
+export default ItemPage;

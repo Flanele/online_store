@@ -9,20 +9,22 @@ import useEditItem from '../../hooks/useEditItem';
 const EditItem = ({ isOpen, onClose, itemData, onSave }) => {
     const {
         name,
+        setName, 
         price,
+        setPrice, 
         file,
         descriptions,
         handleFileChange,
         addDescription,
         updateDescription,
-        deleteDescription,
         getUpdatedItem,
+        deleteDescription
     } = useEditItem(itemData);
     
     const handleSave = () => {
-        const updatedItem = getUpdatedItem();
-        onSave(updatedItem);
-        onClose();
+        const updatedItem = getUpdatedItem(); 
+        onSave(updatedItem); 
+        onClose(); 
     };
     
     return (
@@ -33,15 +35,26 @@ const EditItem = ({ isOpen, onClose, itemData, onSave }) => {
                 <ModalBody>
                     <FormControl mb={4}>
                         <FormLabel>Name</FormLabel>
-                        <Input value={name} onChange={(e) => setName(e.target.value)} />
+                        <Input 
+                            value={name} 
+                            onChange={(e) => setName(e.target.value)} 
+                        />
                     </FormControl>
                     <FormControl mb={4}>
                         <FormLabel>Price</FormLabel>
-                        <Input type="number" value={price} onChange={(e) => setPrice(parseFloat(e.target.value))} />
+                        <Input 
+                            type="number" 
+                            value={price} 
+                            onChange={(e) => setPrice(parseFloat(e.target.value) || 0)}  
+                        />
                     </FormControl>
                     <FormControl mb={4}>
                         <FormLabel>Image</FormLabel>
-                        <Input p={2} type="file" onChange={handleFileChange} />
+                        <Input 
+                            p={2} 
+                            type="file"
+                            onChange={handleFileChange}
+                        />
                     </FormControl>
                     <FormControl mb={4}>
                         <FormLabel>Descriptions</FormLabel>
@@ -50,12 +63,12 @@ const EditItem = ({ isOpen, onClose, itemData, onSave }) => {
                                 <Input
                                     placeholder="Title"
                                     value={desc.title}
-                                    onChange={(e) => updateDescription('title', e.target.value, desc.number)}
+                                    onChange={(e) => updateDescription('title', e.target.value, desc.number)} 
                                 />
                                 <Input
                                     placeholder="Description"
                                     value={desc.description}
-                                    onChange={(e) => updateDescription('description', e.target.value, desc.number)}
+                                    onChange={(e) => updateDescription('description', e.target.value, desc.number)} 
                                 />
                                 <Button p={5} colorScheme="red" onClick={() => deleteDescription(desc.number)}>
                                     Delete

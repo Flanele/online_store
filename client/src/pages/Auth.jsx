@@ -61,7 +61,7 @@ const Auth = observer(() => {
                             color="white" 
                             hover={{ bg: "gray.800" }}  
                             variant="solid" 
-                            mt={6}
+                            mt={10}
                             width="full"
                             sx={{ textTransform: 'uppercase' }}
                             onClick={handleSubmit} 

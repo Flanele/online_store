@@ -30,12 +30,19 @@ export const updateItem = async (id, item) => {
     return data;
 };
 
-export const fetchItems = async (typeId, brandId, page, limit = 12) => {
-    const { data } = await $host.get('api/item', {params: {
-        typeId, brandId, page, limit
-    }});
-    return data
+export const fetchItems = async (typeId, brandId, page, limit = 12, searchTerm = '') => {
+    const { data } = await $host.get('api/item', {
+        params: {
+            typeId,
+            brandId,
+            page,
+            limit,
+            searchTerm 
+        }
+    });
+    return data;
 };
+
 
 export const fetchOneItem = async (id) => {
     const { data } = await $host.get('api/item/' + id);

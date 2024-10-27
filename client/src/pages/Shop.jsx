@@ -8,17 +8,14 @@ import ItemsList from '../components/ItemsList';
 import Pagination from '../components/Pagination';
 import useShopData from '../hooks/useShopData';
 import SearchSection from '../components/SearchSection';
-import useFilteredItems from '../hooks/useFilteredItems'; 
 
 const Shop = observer(() => {
-    const { item } = useShopData();
-    const [searchTerm, setSearchTerm] = useState(''); 
+    const [searchTerm, setSearchTerm] = useState('');
+    const { item } = useShopData(searchTerm); 
 
-    const filteredItems = useFilteredItems(item.items, searchTerm);
-
-    const handleSearch = useCallback((term) => {
+    const handleSearch = (term) => {
         setSearchTerm(term);
-    }, []);
+    };
 
     return (
         <>
@@ -33,7 +30,7 @@ const Shop = observer(() => {
                         <Flex direction="column" align="flex-start">
                             <BrandBar />
                             <Box mt={4} width="100%">
-                                <ItemsList items={filteredItems} /> 
+                                <ItemsList items={item.items}  /> 
                             </Box>
                             <Box mt={7}>
                                 <Pagination />

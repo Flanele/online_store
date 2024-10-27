@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 const useEditItem = (itemData) => {
-    const [name, setName] = useState(itemData.name || '');
-    const [price, setPrice] = useState(itemData.price || 0);
-    const [file, setFile] = useState(null);
+    const [name, setName] = useState(itemData.name);
+    const [price, setPrice] = useState(itemData.price);
+    const [file, setFile] = useState(itemData.img);
     const [descriptions, setDescriptions] = useState(
         itemData.info.map((desc) => ({ ...desc, number: uuidv4() })) || []
     );
@@ -35,7 +35,9 @@ const useEditItem = (itemData) => {
 
     return {
         name,
+        setName,
         price,
+        setPrice,
         file,
         descriptions,
         handleFileChange,

@@ -3,6 +3,8 @@ const { Item, ItemInfo, Rating } = require('../models/models');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 const fs = require('fs');
+const { Op } = require('sequelize'); 
+
 
 class ItemController {
     async create(req, res, next) {
@@ -47,31 +49,28 @@ class ItemController {
     }
     
     
-    async getAll (req, res) {
-        let {brandId, typeId, limit, page} = req.query;
-        page = page || 1;
-        limit = limit || 12;
-        let offset = page * limit - limit;
-        let items;
+   async getAll(req, res) {
+    let { brandId, typeId, limit, page, searchTerm } = req.query; 
+    page = page || 1;
+    limit = limit || 12;
+    let offset = page * limit - limit;
+    let items;
 
-        if (!brandId && !typeId) {
-            items = await Item.findAndCountAll({limit, offset});
-        }
+    const whereCondition = {};
 
-        if (brandId && !typeId) {
-            items = await Item.findAndCountAll({where: {brandId}, limit, offset});
-        }
+    if (brandId) whereCondition.brandId = brandId;
+    if (typeId) whereCondition.typeId = typeId;
+    if (searchTerm) whereCondition.name = { [Op.iLike]: `%${searchTerm}%` }; 
 
-        if (!brandId && typeId) {
-            items = await Item.findAndCountAll({where: {typeId}, limit, offset});
-        }
+    items = await Item.findAndCountAll({
+        where: whereCondition,
+        limit,
+        offset
+    });
 
-        if (brandId && typeId) {
-            items = await Item.findAndCountAll({where: {brandId, typeId}, limit, offset});
-        }
+    return res.json(items);
+}
 
-        return res.json(items);
-    }
 
     async getOne (req, res) {
         const {id} = req.params;
@@ -124,27 +123,18 @@ class ItemController {
                 const existingInfos = await ItemInfo.findAll({ where: { itemId: id } });
     
                 for (const existingInfo of existingInfos) {
-                    const isNewDescription = info.find(i => i.title === existingInfo.title);
-                    if (!isNewDescription) {
+                    const isPresentInNewData = info.some(newInfo => newInfo.title === existingInfo.title && newInfo.description === existingInfo.description);
+                    if (!isPresentInNewData) {
                         await existingInfo.destroy();
                     }
                 }
     
                 for (const i of info) {
-                    let existingInfo = await ItemInfo.findOne({
-                        where: { itemId: id, title: i.title }
+                    await ItemInfo.create({
+                        title: i.title,
+                        description: i.description,
+                        itemId: id
                     });
-    
-                    if (existingInfo) {
-                        existingInfo.description = i.description;
-                        await existingInfo.save();
-                    } else {
-                        await ItemInfo.create({
-                            title: i.title,
-                            description: i.description,
-                            itemId: id
-                        });
-                    }
                 }
             }
     
@@ -155,7 +145,7 @@ class ItemController {
     }
     
     
-
+    
     async removeItem (req, res, next) {
         try {
             const {id} = req.params;
