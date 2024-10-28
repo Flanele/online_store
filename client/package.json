@@ -14,7 +14,9 @@
     "@chakra-ui/react": "^2.10.3",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "add": "^2.0.6",
     "axios": "^1.7.7",
+    "chakra": "^0.0.3",
     "framer-motion": "^11.11.9",
     "jwt-decode": "^4.0.0",
     "mobx": "^6.13.5",
@@ -22,7 +24,9 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.27.0",
+    "snippet": "^0.1.0",
     "swiper": "^11.1.14",
+    "toaster": "^0.1.2",
     "uuid": "^10.0.0"
   },
   "devDependencies": {

@@ -40,6 +40,8 @@ export const fetchItems = async (typeId, brandId, page, limit = 12, searchTerm =
             searchTerm 
         }
     });
+
+    console.log('Fetched data:', data);
     return data;
 };
 

@@ -1,8 +1,18 @@
 import { Box, Text, Heading, Flex, Button, Image } from "@chakra-ui/react";
 import star from '../assets/star.svg';
 import heart from '../assets/heart.svg';
+import { addToCart } from "../http/cartAPI";
+import useToastNotification from "../hooks/useToastNotification";
+import { useCallback } from "react";
 
 const ItemDetails = ({ name, brandName, price, rating, img }) => {
+    const { showToast } = useToastNotification();
+
+    const handleAddToCart = useCallback(() => {
+        addToCart(); 
+        showToast("Success!", `${name} has been added to your cart.`, "success"); 
+    });
+
     return (
         <>
             <Text mb={2} fontSize="20px">{brandName}</Text> 
@@ -29,6 +39,7 @@ const ItemDetails = ({ name, brandName, price, rating, img }) => {
                     backgroundColor="green.400" 
                     color="white"            
                     _hover={{ backgroundColor: "green.500" }} 
+                    onClick={handleAddToCart}
                 >
                     ADD TO CART
                 </Button>

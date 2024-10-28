@@ -6,13 +6,15 @@ import { createContext } from 'react';
 import UserStore from './store/UserStore.js';
 import { BrowserRouter } from 'react-router-dom';
 import ItemStore from './store/ItemStore.js';
+import CartStore from './store/CartStore.js';
 
 export const Context = createContext(null);
 
 createRoot(document.getElementById('root')).render(
   <Context.Provider value={{
     user: new UserStore(),
-    item: new ItemStore()
+    item: new ItemStore(),
+    cart: new CartStore()
   }}>
       <ChakraProvider theme={theme}>
         <BrowserRouter>

@@ -1,15 +1,19 @@
 import { Box, Image, Text, Flex, Button, Heading } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import star from '../assets/star.svg';
 import heart from '../assets/heart.svg'; 
 import { fetchBrand } from '../http/brandAPI';
 import { ITEM_ROUTE } from '../utils/consts';
+import { addToCart } from '../http/cartAPI';
+import useToastNotification from '../hooks/useToastNotification'; 
+
 const apiUrl = import.meta.env.VITE_APP_API_URL;
 
 const Item = ({ item }) => {
     const [brandName, setBrandName] = useState('');
     const navigate = useNavigate();
+    const { showToast } = useToastNotification(); 
 
     useEffect(() => {
         const getBrand = async () => {
@@ -17,12 +21,22 @@ const Item = ({ item }) => {
                 const brand = await fetchBrand(item.brandId); 
                 setBrandName(brand.name); 
             } catch (error) {
-                console.error("Error fetching brand:", error);
+                console.error("Ошибка при получении бренда:", error);
             }
         };
 
         getBrand();
     }, [item.brandId]);
+
+    const handleAddToCart = useCallback(async (event) => {
+        event.stopPropagation(); 
+        try {
+            await addToCart(item.id);
+            showToast("Thank you!", `${item.name} has been successfully added to the cart.`, "success");
+        } catch (error) {
+            console.error("Ошибка при добавлении товара в корзину:", error);
+        }
+    }, [item, showToast]);
 
     return (
         <Box
@@ -63,7 +77,7 @@ const Item = ({ item }) => {
             <Box p={2}>
                 <Flex justifyContent="space-between" alignItems="center">
                     <Heading fontSize="28px" fontWeight="semibold">
-                    {brandName || 'Loading...'}
+                        {brandName || 'Loading...'}
                     </Heading>
                     <Flex alignItems="center">
                         <Text fontSize="sm">{item.rating}</Text>
@@ -79,6 +93,7 @@ const Item = ({ item }) => {
                     textTransform="uppercase"
                     color="white"
                     _hover={{ backgroundColor: "gray.600" }}
+                    onClick={handleAddToCart} 
                 >
                     ADD TO BAG
                 </Button>
@@ -88,4 +103,3 @@ const Item = ({ item }) => {
 }
 
 export default Item;
-

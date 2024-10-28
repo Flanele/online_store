@@ -5,9 +5,12 @@ import { Context } from '../main';
 import Item from './Item';
 import { Heading } from '@chakra-ui/react';
 
+import 'swiper/swiper-bundle.css';
 
 const SwiperProducts = () => {
   const { item } = useContext(Context);
+
+  console.log('Current items in context:', item.items);
 
   const randomItems = useMemo(() => {
     const getRandomItems = (items, count) => {
@@ -17,6 +20,10 @@ const SwiperProducts = () => {
     return item.items.length > 0 ? getRandomItems(item.items, 8) : [];
   }, [item.items]);
 
+  if (randomItems.length === 0) {
+    return null; 
+  }
+
   return (
     <>
       <Heading mb={7} textAlign="center" fontSize="28px">Our recommendations:</Heading>
@@ -25,6 +32,7 @@ const SwiperProducts = () => {
         slidesPerView={4}
         spaceBetween={10}
         navigation={true}
+        observer={true}
       >
         {randomItems.map((product) => (
           <SwiperSlide key={product.id}> 

@@ -21,7 +21,7 @@ class CartController {
             console.error(error);
             return next(ApiError.badRequest('Не удалось получить корзину'));
         }
-    }
+    };
 
     async addToCart(req, res, next) {
         try {
@@ -60,7 +60,7 @@ class CartController {
             console.error(error);
             return next(ApiError.badRequest('Не удалось добавить товар в корзину'));
         }
-    }
+    };
 
     async removeCartItem (req, res, next) {
         try {
@@ -86,7 +86,7 @@ class CartController {
         } catch (e) {
             return next(ApiError.badRequest(e))
         }
-    }
+    };
     
 
 };
