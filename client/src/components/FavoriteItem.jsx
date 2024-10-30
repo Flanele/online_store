@@ -1,29 +1,30 @@
-import { Box, Image, Text, Flex, Button, Heading } from '@chakra-ui/react';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import star from '../assets/star.svg';
-import heart from '../assets/heart.svg'; 
-import setHeart from '../assets/purple_heart.svg';
-import { fetchBrand } from '../http/brandAPI';
-import { ITEM_ROUTE, LOGIN_ROUTE } from '../utils/consts';
-import { addToCart } from '../http/cartAPI';
-import useToastNotification from '../hooks/useToastNotification'; 
-import { observer } from 'mobx-react-lite';
-import useFavorites from '../hooks/useFavorites';
+import { useCallback, useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import useToastNotification from "../hooks/useToastNotification";
+import useFavorites from "../hooks/useFavorites";
+import { ITEM_ROUTE } from "../utils/consts";
 
 const apiUrl = import.meta.env.VITE_APP_API_URL;
 
-const Item = observer(({ item }) => {
+import bin from '../assets/bin.svg';
+import star from '../assets/star.svg';
+import { Box, Button, Flex, Heading, Image, Text } from "@chakra-ui/react";
+import { fetchBrand } from "../http/brandAPI";
+import { addToCart } from "../http/cartAPI";
+import { Context } from "../main";
+
+const FavoriteItem = ({ item }) => {
     const [brandName, setBrandName] = useState('');
     const navigate = useNavigate();
     const { showToast } = useToastNotification(); 
+    const {favorite} = useContext(Context);
 
-    const { like, handleToggleFavorite, isAuth } = useFavorites(item);
+    const { like, handleToggleFavorite } = useFavorites(item);
 
     useEffect(() => {
         const getBrand = async () => {
             try {
-                const brand = await fetchBrand(item.brandId); 
+                const brand = await fetchBrand(item.item.brandId); 
                 setBrandName(brand.name); 
             } catch (error) {
                 console.error("Ошибка при получении бренда:", error);
@@ -31,34 +32,36 @@ const Item = observer(({ item }) => {
         };
 
         getBrand();
-    }, [item.brandId]);
+    }, [item.item.brandId]);
 
     const handleAddToCart = useCallback(async (event) => {
-
         event.stopPropagation(); 
-
-        if (!isAuth) {
-            showToast("Please log in");
-            return
-        }
-
         try {
-            await addToCart(item.id);
-            showToast("Thank you!", `${item.name} has been successfully added to the cart.`, "success");
+            await addToCart(item.item.id);
+            showToast("Thank you!", `${item.item.name} has been successfully added to the cart.`, "success");
         } catch (error) {
             console.error("Ошибка при добавлении товара в корзину:", error);
         }
-    }, [item, showToast]);
+    }, [item.item, showToast]);
+
+    const handleRemove = useCallback((async (event) => {
+        event.stopPropagation();
+
+        const foundFavoriteItem = favorite.favorites.find(fav => fav.itemId === item.item.id);
+
+        await favorite.removeItemFromFav(foundFavoriteItem.id); 
+        showToast(`${item.item.name} has been successfully removed from the favorites!`);
+
+    }), [item.item, showToast])
 
     return (
         <Box
-            onClick={() => navigate(ITEM_ROUTE + '/' + item.id)}
-            width="250px" 
+            onClick={() => navigate(ITEM_ROUTE + '/' + item.item.id)}
+            width="350px" 
             borderWidth="1px"
             borderRadius="lg"
             overflow="hidden"
             cursor="pointer"
-            mt={3}
             boxShadow="md"
             transition="transform 0.2s"
             _hover={{ transform: 'scale(1.02)' }}
@@ -67,23 +70,23 @@ const Item = observer(({ item }) => {
             <Box position="relative"> 
                 <Image
                     width="100%"
-                    height="250px"
+                    height="270px"
                     objectFit="cover"
-                    src={`${apiUrl}/${item.img}`} 
-                    alt={item.name}
+                    src={`${apiUrl}/${item.item.img}`} 
+                    alt={item.item.name}
                 />
                 <Box 
                     position="absolute" 
                     top={2} 
                     right={2} 
                     cursor="pointer" 
-                    onClick={handleToggleFavorite}
                 >
                     <Image 
-                        src={like ? setHeart : heart} 
+                        src={bin} 
                         alt="Add to favorites" 
                         width={5} 
                         height={5} 
+                        onClick={handleRemove}
                     />
                 </Box>
             </Box>
@@ -93,19 +96,18 @@ const Item = observer(({ item }) => {
                         {brandName || 'Loading...'}
                     </Heading>
                     <Flex alignItems="center">
-                        <Text fontSize="sm">{item.rating}</Text>
+                        <Text fontSize="sm">{item.item.rating}</Text>
                         <Image ml={1} width={18} height={18} src={star} alt="Star rating" />
                     </Flex>
                 </Flex>
-                <Text mt={1} noOfLines={1}>{item.name}</Text>
-                <Text fontWeight="bold" mt={2}>${item.price.toFixed(2)}</Text>
+                <Text mt={1} noOfLines={1}>{item.item.name}</Text>
+                <Text fontWeight="bold" mt={2}>${item.item.price.toFixed(2)}</Text>
                 <Button
                     mt={2}
-                    backgroundColor="black"
+                    variant="outline"
                     width="full"
                     textTransform="uppercase"
-                    color="white"
-                    _hover={{ backgroundColor: "gray.600" }}
+                    color="black"
                     onClick={handleAddToCart} 
                 >
                     ADD TO BAG
@@ -113,6 +115,7 @@ const Item = observer(({ item }) => {
             </Box>
         </Box>
     );
-});
+};
 
-export default Item;
+
+export default FavoriteItem;

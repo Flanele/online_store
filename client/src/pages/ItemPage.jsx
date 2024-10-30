@@ -51,6 +51,7 @@ const ItemPage = observer(() => {
                 />
                 <Box mt={10} maxW="500px" minW="500px"> 
                     <ItemDetails 
+                        id={item.id}
                         name={item.name} 
                         brandName={brandName} 
                         price={item.price} 

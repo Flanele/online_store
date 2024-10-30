@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../main';
-import { Box, Container, Flex, Heading, Text } from '@chakra-ui/react';
+import { Box, Container, Flex, Text } from '@chakra-ui/react';
 import SwiperProducts from '../components/SwiperProducts';
 import { observer } from 'mobx-react-lite';
 import CartItem from '../components/CartItem';
@@ -22,7 +22,7 @@ const Cart = observer(() => {
         await cart.removeItem(cartItemId); 
     };
 
-    const cartItems = cart.items; 
+    const cartItems = cart.items || []; 
     const isCartEmpty = cartItems.length === 0;
 
     return (
@@ -32,8 +32,8 @@ const Cart = observer(() => {
             ) : (
                 isCartEmpty ? 
                     <Box mt={20}>
-                        <Text textAlign="center" fontSize="24px">Your cart is empty...</Text>
-                        <SwiperProducts mt="300px" />
+                        <Text textAlign="center" fontSize="24px" mb="100px">Your cart is empty...</Text>
+                        <SwiperProducts />
                     </Box>
                 :
                 <Flex mt={10} gap={5} alignItems="center" flexDirection="column">

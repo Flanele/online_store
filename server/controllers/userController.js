@@ -25,6 +25,8 @@ class UserController {
 
             const hashPassword = await bcrypt.hash(password, 5);
             const user = await User.create({ email, role, password: hashPassword, username });
+            await Cart.create({ userId: user.id });
+            await Favorite.create({userId: user.id});
             const token = generateJwt(user.id, user.email, user.role);
             return res.status(201).json({ token });
         } catch (error) {
@@ -39,7 +41,7 @@ class UserController {
             const user = await User.findOne({where: {email}});
 
             if (!user) {
-                return next(ApiError.internal('Пользователь не найден'));
+                return next(ApiError.badRequest('Пользователь не найден'));
             }
 
             let comparedPassword = bcrypt.compareSync(password, user.password);

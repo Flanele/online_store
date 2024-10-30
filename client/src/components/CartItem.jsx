@@ -1,9 +1,13 @@
 import { Box, Text, Button, Flex, Image } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
+import { ITEM_ROUTE } from "../utils/consts";
+import { useNavigate } from "react-router-dom";
+import { useCallback } from "react";
 
 const apiUrl = import.meta.env.VITE_APP_API_URL;
 
 const CartItem = ({ item, onClick }) => {
+    const navigate = useNavigate();
 
     return (
         <Flex
@@ -22,10 +26,17 @@ const CartItem = ({ item, onClick }) => {
                 objectFit="cover"
                 borderRadius="md"
                 mr={10}
+                onClick={useCallback(() => navigate(ITEM_ROUTE + '/' + item.item.id))}
+                cursor="pointer"
             />
 
             <Box flex="1" mx={4}>
-                <Text fontWeight="600" fontSize="lg" mb={1}>
+                <Text 
+                    fontWeight="600" 
+                    fontSize="lg" mb={1} 
+                    cursor="pointer" 
+                    onClick={useCallback(() => navigate(ITEM_ROUTE + '/' + item.item.id))}
+                >
                     {item.item.name}
                 </Text>
                 <Text fontSize="xl" color="gray.500">

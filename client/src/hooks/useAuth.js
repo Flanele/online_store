@@ -40,8 +40,8 @@ const useAuth = (isLogin) => {
             return true; 
         } catch (e) {
             console.error(e); 
-            if (e.response) {
-                setError(e.response.data.message);
+            if (e.response && e.response.data && typeof e.response.data === 'object') {
+                errorMessage = e.response.data.message || 'Unknown error.';
             } else {
                 setError('An unexpected error occurred. Please try again.');
             }

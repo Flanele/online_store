@@ -32,11 +32,10 @@ export default class CartStore {
     };
 
     get total() {
-        // Проверяем, что _items — это массив и содержит элементы.
         if (!Array.isArray(this._items)) return 0;
     
         return this._items.reduce((total, cartItem) => {
-            const itemPrice = cartItem.item?.price || 0; // Извлекаем цену из вложенного объекта item
+            const itemPrice = cartItem.item?.price || 0; 
             const itemQuantity = cartItem.quantity || 1;
             return total + itemPrice * itemQuantity;
         }, 0);

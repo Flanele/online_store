@@ -1,17 +1,28 @@
 import { Box, Text, Heading, Flex, Button, Image } from "@chakra-ui/react";
 import star from '../assets/star.svg';
 import heart from '../assets/heart.svg';
+import setHeart from '../assets/purple_heart.svg';
 import { addToCart } from "../http/cartAPI";
 import useToastNotification from "../hooks/useToastNotification";
 import { useCallback } from "react";
+import useFavorites from "../hooks/useFavorites";
+import { observer } from "mobx-react-lite";
 
-const ItemDetails = ({ name, brandName, price, rating, img }) => {
+const ItemDetails = observer(({ id, name, brandName, price, rating, img }) => {
     const { showToast } = useToastNotification();
 
+    const { like, handleToggleFavorite, isAuth } = useFavorites({ id, name });
+
+
     const handleAddToCart = useCallback(() => {
-        addToCart(); 
+        if (!isAuth) {
+            showToast("Please log in.")
+            return
+        }
+
+        addToCart(id); 
         showToast("Success!", `${name} has been added to your cart.`, "success"); 
-    });
+    }, [id, name, isAuth, showToast]);
 
     return (
         <>
@@ -45,12 +56,12 @@ const ItemDetails = ({ name, brandName, price, rating, img }) => {
                 </Button>
                 <Box ml={4}> 
                     <button>
-                        <img src={heart} alt="Add to Favorites" style={{ width: "25px", height: "25px"}} />
+                        <img src={like ? setHeart : heart} alt="Add to Favorites" style={{ width: "25px", height: "25px"}} onClick={handleToggleFavorite} />
                     </button>                                    
                 </Box>
             </Flex>
        </>
     );
-};
+});
 
 export default ItemDetails;
