@@ -10,10 +10,12 @@ import { addToCart } from '../http/cartAPI';
 import useToastNotification from '../hooks/useToastNotification'; 
 import { observer } from 'mobx-react-lite';
 import useFavorites from '../hooks/useFavorites';
+import { Context } from '../main';
 
 const apiUrl = import.meta.env.VITE_APP_API_URL;
 
 const Item = observer(({ item }) => {
+    const {cart} = useContext(Context);
     const [brandName, setBrandName] = useState('');
     const navigate = useNavigate();
     const { showToast } = useToastNotification(); 
@@ -43,7 +45,7 @@ const Item = observer(({ item }) => {
         }
 
         try {
-            await addToCart(item.id);
+            await cart.addItem(item);
             showToast("Thank you!", `${item.name} has been successfully added to the cart.`, "success");
         } catch (error) {
             console.error("Ошибка при добавлении товара в корзину:", error);

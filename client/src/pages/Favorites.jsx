@@ -42,7 +42,7 @@ const Favorites = observer(() => {
                     :
                     <Box mt={20}>
                     <Text textAlign="center" fontSize="28px" mb="70px">Your wishlist ♥</Text>
-                    <Flex gap="40px" flexWrap="wrap">
+                    <Flex gap="40px" flexWrap="wrap" justifyContent="center">
                         {favoriteItems.map((item) => ( 
                             <FavoriteItem key={item.id} item={item} />
                         ))}

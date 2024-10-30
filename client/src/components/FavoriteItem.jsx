@@ -57,7 +57,7 @@ const FavoriteItem = ({ item }) => {
     return (
         <Box
             onClick={() => navigate(ITEM_ROUTE + '/' + item.item.id)}
-            width="350px" 
+            width="300px" 
             borderWidth="1px"
             borderRadius="lg"
             overflow="hidden"

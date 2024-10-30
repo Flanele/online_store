@@ -4,23 +4,26 @@ import heart from '../assets/heart.svg';
 import setHeart from '../assets/purple_heart.svg';
 import { addToCart } from "../http/cartAPI";
 import useToastNotification from "../hooks/useToastNotification";
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 import useFavorites from "../hooks/useFavorites";
 import { observer } from "mobx-react-lite";
+import { Context } from "../main";
 
 const ItemDetails = observer(({ id, name, brandName, price, rating, img }) => {
     const { showToast } = useToastNotification();
+    const {cart} = useContext(Context);
 
     const { like, handleToggleFavorite, isAuth } = useFavorites({ id, name });
 
 
-    const handleAddToCart = useCallback(() => {
+    const handleAddToCart = useCallback(async () => {
         if (!isAuth) {
             showToast("Please log in.")
             return
         }
 
-        addToCart(id); 
+        await addToCart(id); 
+        await cart.loadCartItems();
         showToast("Success!", `${name} has been added to your cart.`, "success"); 
     }, [id, name, isAuth, showToast]);
 

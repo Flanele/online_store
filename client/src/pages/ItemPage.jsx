@@ -42,7 +42,7 @@ const ItemPage = observer(() => {
             <Box mt={10}>
                  <UserOptions />
             </Box>          
-            <Flex mt={20} gap="160px" alignItems="flex-start">
+            <Flex mt={10} gap="160px" alignItems="flex-start">
                 <Image 
                     w="500px" 
                     h="500px" 

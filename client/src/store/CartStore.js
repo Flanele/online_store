@@ -5,15 +5,28 @@ export default class CartStore {
     constructor() {
         this._items = [];
         makeAutoObservable(this);
+        this.loadCartFromLocalStorage();
+    };
+
+    loadCartFromLocalStorage() {
+        const savedCart = JSON.parse(localStorage.getItem('cart')) || [];
+        console.log("Loaded cart from local storage:", savedCart);
+        this.setItems(savedCart); 
+    };
+
+    saveCartToLocalStorage() {
+        localStorage.setItem('cart', JSON.stringify(this._items));
     };
 
     async loadCartItems() {
         const data = await fetchCart(); 
+        console.log("Cart data loaded:", data);
         this.setItems(data); 
-    }
+        this.saveCartToLocalStorage();
+    };
 
     addItem = async (item) => {
-        await addToCart(item.itemId); 
+        await addToCart(item.id); 
         await this.loadCartItems();
     };
 
@@ -23,7 +36,9 @@ export default class CartStore {
     };
 
     setItems(items) {
+        console.log("Setting cart items:", items);
         this._items = items.cart_items || [];
+        this.saveCartToLocalStorage();
     };
 
 
