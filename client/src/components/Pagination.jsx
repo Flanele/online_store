@@ -1,14 +1,10 @@
 import { observer } from 'mobx-react-lite';
-import React, { useContext, useMemo } from 'react';
-import { Context } from '../main';
+import React, { useMemo } from 'react';
+
 import { Box, Button, ButtonGroup, IconButton } from '@chakra-ui/react';
 import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons';
 
-const Pagination = observer(() => {
-    const { item } = useContext(Context);
-    const pageCount = Math.ceil(item.totalCount / item.limit);
-
-    const currentPage = item.page;
+const Pagination = observer(({ currentPage, pageCount, onPageChange }) => {
     const isFirstPage = currentPage === 1;
     const isLastPage = currentPage === pageCount;
 
@@ -19,10 +15,6 @@ const Pagination = observer(() => {
         }
         return tempPages;
     }, [pageCount]);
-
-    const onPageChange = (page) => {
-        item.setPage(page);
-    };
 
     return (
         <Box mt={4} display="flex" justifyContent="center">

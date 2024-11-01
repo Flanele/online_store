@@ -9,6 +9,7 @@ import SwiperProducts from '../components/SwiperProducts';
 import UserOptions from '../components/UserOptions';
 import useItemData from '../hooks/useItemData';
 import useEditModal from '../hooks/useEditModal';
+import CommentsSection from '../components/CommentsSection';
 
 const ItemPage = observer(() => {
     const {
@@ -77,6 +78,13 @@ const ItemPage = observer(() => {
             <Box mt="110px">
                 <SwiperProducts />
             </Box>
+        </Container>
+
+        <Container maxW="1200px">
+            <Box mt="110px">
+                <CommentsSection />
+            </Box>
+            
         </Container>
         </>
     );

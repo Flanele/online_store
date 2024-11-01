@@ -8,6 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
 import ItemStore from './store/ItemStore.js';
 import CartStore from './store/CartStore.js';
 import FavoriteStore from './store/FavoriteStore.js';
+import CommentStore from './store/CommentStore.js';
 
 export const Context = createContext(null);
 
@@ -16,7 +17,8 @@ createRoot(document.getElementById('root')).render(
     user: new UserStore(),
     item: new ItemStore(),
     cart: new CartStore(),
-    favorite: new FavoriteStore()
+    favorite: new FavoriteStore(),
+    comment: new CommentStore()
   }}>
       <ChakraProvider theme={theme}>
         <BrowserRouter>

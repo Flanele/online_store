@@ -48,5 +48,27 @@ export const fetchItems = async (typeId, brandId, page, limit = 12, searchTerm =
 
 export const fetchOneItem = async (id) => {
     const { data } = await $host.get('api/item/' + id);
-    return data
+    return data;
+};
+
+export const fetchCommentsWithRatings = async (id, page, limit = 6) => {
+    const { data } = await $host.get(`api/item/${id}/comments`, {
+        params: {
+            page,
+            limit
+        }
+    });
+    return data;
+};
+
+export const addComment = async (id, {text}) => {
+    const {data} = await $authHost.post(`api/item/${id}/comments`, {text});
+    console.log('Comment:', data);
+    return data;
+};
+
+export const addRating = async (id, {rate}) => {
+    const {data} = await $authHost.post(`api/item/${id}/rating`, {rate});
+    console.log("Rating:", rate);
+    return data;
 };

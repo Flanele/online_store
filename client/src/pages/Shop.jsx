@@ -17,6 +17,8 @@ const Shop = observer(() => {
         setSearchTerm(term);
     };
 
+    const totalPages = Math.ceil(item.totalCount / item.limit);
+
     return (
         <>
             <Container maxW="1800px">
@@ -33,7 +35,11 @@ const Shop = observer(() => {
                                 <ItemsList items={item.items}  /> 
                             </Box>
                             <Box mt={7}>
-                                <Pagination />
+                            <Pagination
+                                currentPage={item.page}
+                                pageCount={totalPages}
+                                onPageChange={(page) => item.setPage(page)}
+                            />
                             </Box>                          
                         </Flex>
                     </Box>

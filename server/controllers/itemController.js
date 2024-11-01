@@ -1,5 +1,5 @@
 const ApiError = require('../error/ApiError');
-const { Item, ItemInfo, Rating } = require('../models/models');
+const { Item, ItemInfo  } = require('../models/models');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 const fs = require('fs');
@@ -45,8 +45,8 @@ class ItemController {
         } catch (e) {
             console.error(e);
             next(ApiError.badRequest(e.message));
-        }
-    }
+        };
+    };
     
     
    async getAll(req, res) {
@@ -69,7 +69,7 @@ class ItemController {
     });
 
     return res.json(items);
-}
+};
 
 
     async getOne (req, res) {
@@ -81,10 +81,10 @@ class ItemController {
 
         if (!id) {
             return next(ApiError.badRequest('ID is required'));
-        }
+        };
 
         return res.status(200).json(item);
-    }
+    };
 
     async updateItem(req, res, next) {
         try {
@@ -113,7 +113,7 @@ class ItemController {
     
                 img.mv(path.resolve(staticPath, filename));
                 item.img = filename;
-            }
+            };
     
             await item.save();
     
@@ -135,14 +135,14 @@ class ItemController {
                         description: i.description,
                         itemId: id
                     });
-                }
-            }
+                };
+            };
     
             return res.status(200).json(item);
         } catch (e) {
             next(ApiError.badRequest(e.message));
-        }
-    }
+        };
+    };
     
     
     
@@ -160,67 +160,9 @@ class ItemController {
     
         } catch (e) {
             next(ApiError.internal('Ошибка при удалении товара: ' + e.message));
-        }
-    }
+        };
+    };
 
-    async addRating(req, res, next) {
-        try {
-            const { itemId, rate } = req.body; 
-            const userId = req.user.id;
-    
-            const item = await Item.findOne({ where: { id: itemId } });
-
-            if (rate < 1 || rate > 5) {
-                return next(ApiError.badRequest('Рейтинг должен быть числом от 1 до 5'));
-            }
-    
-            if (!item) {
-                return next(ApiError.badRequest('Товар не найден'));
-            }
-    
-            const existingRating = await Rating.findOne({ where: { itemId, userId } });
-    
-            let newAverageRating;
-    
-            if (existingRating) {
-                existingRating.rate = rate;
-                await existingRating.save();
-            } else {
-                await Rating.create({ itemId, userId, rate });
-                item.ratingsCount += 1;
-            }
-    
-            const ratings = await Rating.findAll({ where: { itemId } });
-    
-            const totalRating = ratings.reduce((sum, r) => sum + r.rate, 0);
-            newAverageRating = totalRating / ratings.length;
-    
-            await Item.update({
-                rating: newAverageRating,
-                ratingsCount: ratings.length
-            }, {
-                where: { id: itemId }
-            });
-    
-            return res.status(200).json({ message: 'Рейтинг успешно добавлен или обновлён' });
-        } catch (e) {
-            console.error(e);
-            return next(ApiError.badRequest('Не удалось добавить рейтинг'));
-        }
-    }
-    
-
-    async getRatings(req, res, next) {
-        try {
-            const { id } = req.params; 
-            const ratings = await Rating.findAll({ where: { itemId: id } });
-
-            return res.status(200).json(ratings);
-        } catch (e) {
-            console.error(e);
-            return next(ApiError.badRequest('Не удалось получить рейтинги'));
-        }
-    }
-}
+};
 
 module.exports = new ItemController();

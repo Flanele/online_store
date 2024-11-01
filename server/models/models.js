@@ -60,6 +60,11 @@ const TypeBrand = sequelize.define('type_brand', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true }
 });
 
+const Comment = sequelize.define('comment', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    text: { type: DataTypes.TEXT, allowNull: false }  
+});
+
 User.hasOne(Cart);
 Cart.belongsTo(User);
 
@@ -90,6 +95,12 @@ FavoriteItem.belongsTo(Item);
 Rating.belongsTo(Item);
 Rating.belongsTo(User);
 
+User.hasMany(Comment);  
+Comment.belongsTo(User); 
+
+Item.hasMany(Comment);  
+Comment.belongsTo(Item); 
+
 Item.hasMany(ItemInfo, { as: 'info' });
 ItemInfo.belongsTo(Item);
 
@@ -97,5 +108,5 @@ Type.belongsToMany(Brand, { through: TypeBrand });
 Brand.belongsToMany(Type, { through: TypeBrand });
 
 module.exports = {
-    User, Cart, CartItem, Item, Type, Brand, Rating, TypeBrand, ItemInfo, Favorite, FavoriteItem
+    User, Cart, CartItem, Item, Type, Brand, Rating, TypeBrand, ItemInfo, Favorite, FavoriteItem, Comment
 };
