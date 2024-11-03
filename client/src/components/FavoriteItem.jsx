@@ -17,7 +17,7 @@ const FavoriteItem = ({ item }) => {
     const [brandName, setBrandName] = useState('');
     const navigate = useNavigate();
     const { showToast } = useToastNotification(); 
-    const {favorite} = useContext(Context);
+    const { favorite } = useContext(Context);
 
     const { like, handleToggleFavorite } = useFavorites(item);
 
@@ -44,7 +44,7 @@ const FavoriteItem = ({ item }) => {
         }
     }, [item.item, showToast]);
 
-    const handleRemove = useCallback((async (event) => {
+    const handleRemove = useCallback(async (event) => {
         event.stopPropagation();
 
         const foundFavoriteItem = favorite.favorites.find(fav => fav.itemId === item.item.id);
@@ -52,7 +52,7 @@ const FavoriteItem = ({ item }) => {
         await favorite.removeItemFromFav(foundFavoriteItem.id); 
         showToast(`${item.item.name} has been successfully removed from the favorites!`);
 
-    }), [item.item, showToast])
+    }, [item.item, showToast]);
 
     return (
         <Box
@@ -83,7 +83,7 @@ const FavoriteItem = ({ item }) => {
                 >
                     <Image 
                         src={bin} 
-                        alt="Add to favorites" 
+                        alt="Remove from favorites" 
                         width={5} 
                         height={5} 
                         onClick={handleRemove}
@@ -92,7 +92,7 @@ const FavoriteItem = ({ item }) => {
             </Box>
             <Box p={2}>
                 <Flex justifyContent="space-between" alignItems="center">
-                    <Heading fontSize="28px" fontWeight="semibold">
+                    <Heading fontSize={{ base: "20px", md: "28px" }} fontWeight="semibold">
                         {brandName || 'Loading...'}
                     </Heading>
                     <Flex alignItems="center">
@@ -100,8 +100,8 @@ const FavoriteItem = ({ item }) => {
                         <Image ml={1} width={18} height={18} src={star} alt="Star rating" />
                     </Flex>
                 </Flex>
-                <Text mt={1} noOfLines={1}>{item.item.name}</Text>
-                <Text fontWeight="bold" mt={2}>${item.item.price.toFixed(2)}</Text>
+                <Text mt={1} noOfLines={1} fontSize={{ base: "sm", md: "md" }}>{item.item.name}</Text>
+                <Text fontWeight="bold" mt={2} fontSize={{ base: "sm", md: "md" }}>${item.item.price.toFixed(2)}</Text>
                 <Button
                     mt={2}
                     variant="outline"
@@ -109,6 +109,7 @@ const FavoriteItem = ({ item }) => {
                     textTransform="uppercase"
                     color="black"
                     onClick={handleAddToCart} 
+                    fontSize={{ base: "sm", md: "md" }} 
                 >
                     ADD TO BAG
                 </Button>
@@ -116,6 +117,5 @@ const FavoriteItem = ({ item }) => {
         </Box>
     );
 };
-
 
 export default FavoriteItem;

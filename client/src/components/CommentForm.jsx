@@ -6,9 +6,7 @@ import { Context } from "../main";
 const CommentForm = ({ onSubmit }) => {
     const [commentText, setCommentText] = useState("");
     const [rating, setRating] = useState(0);
-
-    const {user} = useContext(Context);
-
+    const { user } = useContext(Context);
     const isAuth = user.isAuth;
 
     const handleTextChange = (e) => {
@@ -35,42 +33,39 @@ const CommentForm = ({ onSubmit }) => {
                     size="md"
                     wrap="soft"
                     mb={4}
+                    width="100%"
                 />
 
-                <Flex align="center" justifyContent="space-between">
-                    <Flex gap={3}>
-                        <Text mr={2} fontWeight="bold">
+                <Flex direction={{ base: "column", md: "row" }} align="center" justifyContent="space-between">
+                    <Flex direction={{ base: "column", md: "row" }} align="center" gap={3} mb={{ base: 4, md: 0 }}>
+                        <Text fontWeight="bold">
                             Rate the product:
                         </Text>
-
-                        {Array.from({ length: 5 }, (_, i) => (
-                            <Icon
-                                key={i}
-                                as={FaStar}
-                                boxSize={6}
-                                color={i < rating ? "yellow.400" : "gray.300"}
-                                cursor="pointer"
-                                onClick={() => handleStarClick(i + 1)} 
-                            />
-                        ))}
-
-
+                        <Flex>
+                            {Array.from({ length: 5 }, (_, i) => (
+                                <Icon
+                                    key={i}
+                                    as={FaStar}
+                                    boxSize={6}
+                                    color={i < rating ? "yellow.400" : "gray.300"}
+                                    cursor="pointer"
+                                    onClick={() => handleStarClick(i + 1)} 
+                                />
+                            ))}
+                        </Flex>
                     </Flex>
-                    
 
-                       <Button
-                    backgroundColor="blue.800"
-                    color="white"
-                    width="25%"
-                    _hover={{ backgroundColor: "blue.700" }}
-                    onClick={handleSubmit}
-                    isDisabled={!commentText || !rating || !isAuth} 
-                >
-                    Submit Comment
-                </Button>
+                    <Button
+                        backgroundColor="blue.800"
+                        color="white"
+                        width={{ base: "100%", md: "25%" }}
+                        _hover={{ backgroundColor: "blue.700" }}
+                        onClick={handleSubmit}
+                        isDisabled={!commentText || !rating || !isAuth} 
+                    >
+                        Submit Comment
+                    </Button>
                 </Flex>
-
-             
             </Stack>
         </Box>
     );

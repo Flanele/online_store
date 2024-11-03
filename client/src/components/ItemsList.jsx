@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Flex } from '@chakra-ui/react';
 import Item from './Item'; 
 import { observer } from 'mobx-react-lite';
-import { Context } from '../main';
 
 const ItemsList = observer(({ items }) => {
     return (

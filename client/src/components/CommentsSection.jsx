@@ -52,7 +52,7 @@ const CommentsSection = observer(() => {
             <Heading mb={7} fontSize="24px">Reviews:</Heading>
             <CommentForm onSubmit={onSubmit} />
             {commentsEmpty ? (
-                <Text>There are no reviews for this product yet. You can write the first one!</Text>
+                <Text mt={8}>There are no reviews for this product yet. You can write the first one!</Text>
             ) : (
                 <>                             
                     <CommentsList comments={comments} ratings={ratings} />

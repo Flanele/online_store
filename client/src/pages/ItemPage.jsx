@@ -39,18 +39,23 @@ const ItemPage = observer(() => {
 
     return (
         <>
-        <Container maxW="1200px">
+        <Container maxW={{ base: "95%", md: "1200px" }} mx="auto">
             <Box mt={10}>
                  <UserOptions />
             </Box>          
-            <Flex mt={10} gap="160px" alignItems="flex-start">
+            <Flex 
+                mt={10} 
+                gap={{ base: "20px", md: "40px", lg: "160px" }} 
+                direction={{ base: "column", md: "row" }} 
+                alignItems="flex-start"
+            >
                 <Image 
-                    w="500px" 
-                    h="500px" 
+                    w={{ base: "90%", md: "400px", lg: "500px" }} 
+                    h={{ base: "auto", md: "400px", lg: "500px" }} 
                     src={imageSrc} 
                     objectFit="cover" 
                 />
-                <Box mt={10} maxW="500px" minW="500px"> 
+                <Box mt={10} w="100%">
                     <ItemDetails 
                         id={item.id}
                         name={item.name} 
@@ -61,7 +66,16 @@ const ItemPage = observer(() => {
 
                     <Box>
                         <ItemAccordion info={item.info} />
-                        <Button mt={7} ml="auto" display="block" size="xs" variant="outline" onClick={handleEditClick} >Edit description</Button>
+                        <Button 
+                            mt={7} 
+                            ml="auto" 
+                            display="block" 
+                            size="xs" 
+                            variant="outline" 
+                            onClick={handleEditClick} 
+                        >
+                            Edit description
+                        </Button>
                     </Box>
                 </Box>
             </Flex>
@@ -71,24 +85,21 @@ const ItemPage = observer(() => {
                 itemData={item}
                 onSave={handleSave}
             />
-            
         </Container>
 
-        <Container maxW="1400px">
+        <Container maxW={{ base: "95%", md: "1400px" }} mx="auto">
             <Box mt="110px">
                 <SwiperProducts />
             </Box>
         </Container>
 
-        <Container maxW="1200px">
+        <Container maxW={{ base: "95%", md: "1200px" }} mx="auto">
             <Box mt="110px">
                 <CommentsSection />
             </Box>
-            
         </Container>
         </>
     );
 });
-
 
 export default ItemPage;

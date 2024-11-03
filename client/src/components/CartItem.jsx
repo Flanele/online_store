@@ -11,52 +11,61 @@ const CartItem = ({ item, onClick }) => {
 
     return (
         <Flex
-            w="80%"
+            w="100%"
             p={4}
             borderWidth="1px"
             borderRadius="lg"
             alignItems="center"
             justifyContent="space-between"
             boxShadow="sm"
+            flexDirection={{ base: "column", md: "row" }}
+            mb={4}
+            position="relative"
         >
             <Image
-                src={`${apiUrl}/${item.item.img}`} 
+                src={`${apiUrl}/${item.item.img}`}
                 alt={item.item.name}
-                boxSize="120px"
+                boxSize={{ base: "100px", md: "120px" }}
                 objectFit="cover"
                 borderRadius="md"
-                mr={10}
+                mb={{ base: 4, md: 0 }}
+                mr={{ md: 10 }}
                 onClick={useCallback(() => navigate(ITEM_ROUTE + '/' + item.item.id))}
                 cursor="pointer"
             />
 
-            <Box flex="1" mx={4}>
-                <Text 
-                    fontWeight="600" 
-                    fontSize="lg" mb={1} 
-                    cursor="pointer" 
+            <Box flex="1" mx={{ base: 0, md: 4 }} textAlign={{ base: "center", md: "left" }}>
+                <Text
+                    fontWeight="600"
+                    fontSize={{ base: "md", md: "lg" }}
+                    mb={1}
+                    cursor="pointer"
                     onClick={useCallback(() => navigate(ITEM_ROUTE + '/' + item.item.id))}
                 >
                     {item.item.name}
                 </Text>
-                <Text fontSize="xl" color="gray.500">
+                <Text fontSize={{ base: "md", md: "xl" }} color="gray.500">
                     ${item.item.price.toFixed(2)}
                 </Text>
-                <Text fontSize="md" color="gray.600" mt={1}>
-                    Quantity: {item.quantity} 
+                <Text fontSize={{ base: "sm", md: "md" }} color="gray.600" mt={1}>
+                    Quantity: {item.quantity}
                 </Text>
             </Box>
 
             <Button
-                p={2} pl={3}
+                p={{ base: 1, md: 2 }}
                 size="sm"
                 leftIcon={<CloseIcon />}
-                bg="black" 
-                color="white" 
+                bg="black"
+                color="white"
                 _hover={{ backgroundColor: "gray.600" }}
                 onClick={() => onClick(item.id)}
-            >
-            </Button>
+                position={{ base: "absolute", md: "static" }}
+                top={{ base: "8px", md: "auto" }}
+                right={{ base: "8px", md: "auto" }}
+                mt={{ base: 0, md: 0 }}
+                boxSize={{ base: "24px", md: "auto" }}  
+            />
         </Flex>
     );
 };

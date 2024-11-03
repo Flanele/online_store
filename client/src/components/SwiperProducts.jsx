@@ -1,16 +1,14 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { Context } from '../main';
 import Item from './Item';
-import { Heading } from '@chakra-ui/react';
+import { Heading, Box } from '@chakra-ui/react';
 
 import 'swiper/swiper-bundle.css';
 
 const SwiperProducts = () => {
   const { item } = useContext(Context);
-
-  console.log('Current items in context:', item.items);
 
   const randomItems = useMemo(() => {
     const getRandomItems = (items, count) => {
@@ -25,25 +23,37 @@ const SwiperProducts = () => {
   }
 
   return (
-    <>
-      <Heading mb={7} textAlign="center" fontSize="28px">Our recommendations:</Heading>
+    <Box>
+      <Heading mb={7} textAlign="center" fontSize={{ base: "24px", md: "28px" }}>
+        Our recommendations:
+      </Heading>
       <Swiper
         modules={[Navigation]}
-        slidesPerView={4}
         spaceBetween={10}
-        navigation={true}
-        observer={true}
+        navigation
+        breakpoints={{
+          590: {
+            slidesPerView: 1,
+          },
+          640: {
+            slidesPerView: 2,
+          },
+          900: {
+            slidesPerView: 3,
+          },
+          1250: {
+            slidesPerView: 4,
+          },
+        }}
       >
         {randomItems.map((product) => (
-          <SwiperSlide key={product.id}> 
+          <SwiperSlide key={product.id} style={{ display: 'flex', justifyContent: 'center' }}> 
             <Item item={product} /> 
           </SwiperSlide>
         ))}
       </Swiper>
-    </>
+    </Box>
   );
 };
 
-
 export default SwiperProducts;
-

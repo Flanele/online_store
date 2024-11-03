@@ -22,17 +22,20 @@ const SearchSection = ({ onSearch }) => {
 
     return (
         <div className="search__wrapper">
-            <input 
-                className="search__input" 
-                type="text" 
-                placeholder='Search products...' 
-                onChange={handleSearchChange} 
-            />
-            <img className="search__icon" src={search} alt="search icon" />         
+            <div className="search__input-wrapper">
+                <img className="search__icon" src={search} alt="search icon" />         
+                <input 
+                    className="search__input" 
+                    type="text" 
+                    placeholder='Search products...' 
+                    onChange={handleSearchChange} 
+                />
+            </div>
             <UserOptions />                    
         </div>
     );
 };
 
 export default SearchSection;
+
 

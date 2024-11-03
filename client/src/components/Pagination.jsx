@@ -1,6 +1,5 @@
 import { observer } from 'mobx-react-lite';
 import React, { useMemo } from 'react';
-
 import { Box, Button, ButtonGroup, IconButton } from '@chakra-ui/react';
 import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons';
 
@@ -18,7 +17,7 @@ const Pagination = observer(({ currentPage, pageCount, onPageChange }) => {
 
     return (
         <Box mt={4} display="flex" justifyContent="center">
-            <ButtonGroup isAttached variant="outline">
+            <ButtonGroup isAttached variant="outline" spacing={{ base: 1, md: 2 }}>
                 <IconButton
                     icon={<ArrowLeftIcon />}
                     isDisabled={isFirstPage}
@@ -29,6 +28,7 @@ const Pagination = observer(({ currentPage, pageCount, onPageChange }) => {
                         key={page}
                         onClick={() => onPageChange(page)}
                         colorScheme={page === currentPage ? "black" : "gray"}
+                        size={{ base: "sm", md: "md" }} 
                     >
                         {page}
                     </Button>

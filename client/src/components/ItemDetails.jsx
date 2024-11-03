@@ -11,56 +11,58 @@ import { Context } from "../main";
 
 const ItemDetails = observer(({ id, name, brandName, price, rating, img }) => {
     const { showToast } = useToastNotification();
-    const {cart} = useContext(Context);
+    const { cart } = useContext(Context);
 
     const { like, handleToggleFavorite, isAuth } = useFavorites({ id, name });
 
-
     const handleAddToCart = useCallback(async () => {
         if (!isAuth) {
-            showToast("Please log in.")
-            return
+            showToast("Please log in.");
+            return;
         }
 
-        await addToCart(id); 
+        await addToCart(id);
         await cart.loadCartItems();
-        showToast("Success!", `${name} has been added to your cart.`, "success"); 
+        showToast("Success!", `${name} has been added to your cart.`, "success");
     }, [id, name, isAuth, showToast]);
 
     return (
         <>
-            <Text mb={2} fontSize="20px">{brandName}</Text> 
-            <Heading fontSize="28px">{name}</Heading> 
+            <Text mb={2} fontSize={{ base: "16px", md: "20px" }}>{brandName}</Text> 
+            <Heading fontSize={{ base: "20px", md: "28px" }}>{name}</Heading> 
             
             <Flex mt={4} justifyContent="center" alignItems="center">
-                <Text fontSize="sm">{rating}</Text>
+                <Text fontSize={{ base: "sm", md: "md" }}>{rating}</Text>
                 <Image ml={1} width="18px" height="18px" src={star} alt="Star rating" />
             </Flex>
             
-            <Heading mt={4} fontSize="28px" textAlign="center">${price.toFixed(2)}</Heading>
+            <Heading mt={4} fontSize={{ base: "20px", md: "28px" }} textAlign="center">${price.toFixed(2)}</Heading>
             
             <Flex 
-                mt={14} 
-                gap="40px"
-                w="390px"    
-                justifyContent="space-between" 
-                alignItems="center"
+                mt={6} 
+                gap={{ base: "20px", md: "40px" }} 
+                w={{ base: "100%", md: "300px", lg: "390px" }} 
+                justifyContent="center" 
+                alignItems="center" 
+                direction={{ base: "column", md: "row" }}
             >
                 <Button 
-                    p={6}
+                    p={{ base: 4, md: 5, lg: 6 }} 
                     flex="1"             
-                    maxW="300px"   
+                    w="100%"
                     backgroundColor="green.400" 
                     color="white"            
+                    fontSize={{  md: "mg", lg: "lg" }} 
                     _hover={{ backgroundColor: "green.500" }} 
                     onClick={handleAddToCart}
                 >
                     ADD TO CART
                 </Button>
-                <Box ml={4}> 
-                    <button>
-                        <img src={like ? setHeart : heart} alt="Add to Favorites" style={{ width: "25px", height: "25px"}} onClick={handleToggleFavorite} />
-                    </button>                                    
+
+                <Box>
+                    <button onClick={handleToggleFavorite}>
+                        <img src={like ? setHeart : heart} alt="Add to Favorites" style={{ width: "25px", height: "25px" }} />
+                    </button>
                 </Box>
             </Flex>
        </>
@@ -68,3 +70,4 @@ const ItemDetails = observer(({ id, name, brandName, price, rating, img }) => {
 });
 
 export default ItemDetails;
+

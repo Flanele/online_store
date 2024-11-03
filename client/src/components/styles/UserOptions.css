@@ -31,3 +31,29 @@
     padding: 2px 6px; 
     font-size: 12px; 
 }
+
+@media (max-width: 750px) {
+    .options__link-bag {
+        margin-left: 0;
+    }
+
+    .options__link-heart {
+        margin-left: 20px;
+        width: 28px;
+        height: 28px;
+    }
+
+    .options__link-bag {
+        width: 28px;
+        height: 28px;
+    }
+
+    .options__favorite-count {
+        right: -8px;
+    }
+
+    .options__cart-count {
+        right: 38px;
+    }
+
+}

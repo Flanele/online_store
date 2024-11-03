@@ -5,8 +5,7 @@ import star from '../assets/star.svg';
 import heart from '../assets/heart.svg'; 
 import setHeart from '../assets/purple_heart.svg';
 import { fetchBrand } from '../http/brandAPI';
-import { ITEM_ROUTE, LOGIN_ROUTE } from '../utils/consts';
-import { addToCart } from '../http/cartAPI';
+import { ITEM_ROUTE } from '../utils/consts';
 import useToastNotification from '../hooks/useToastNotification'; 
 import { observer } from 'mobx-react-lite';
 import useFavorites from '../hooks/useFavorites';
@@ -15,7 +14,7 @@ import { Context } from '../main';
 const apiUrl = import.meta.env.VITE_APP_API_URL;
 
 const Item = observer(({ item }) => {
-    const {cart} = useContext(Context);
+    const { cart } = useContext(Context);
     const [brandName, setBrandName] = useState('');
     const navigate = useNavigate();
     const { showToast } = useToastNotification(); 
@@ -36,12 +35,11 @@ const Item = observer(({ item }) => {
     }, [item.brandId]);
 
     const handleAddToCart = useCallback(async (event) => {
-
         event.stopPropagation(); 
 
         if (!isAuth) {
             showToast("Please log in");
-            return
+            return;
         }
 
         try {
@@ -55,7 +53,7 @@ const Item = observer(({ item }) => {
     return (
         <Box
             onClick={() => navigate(ITEM_ROUTE + '/' + item.id)}
-            width="250px" 
+            width="270px" 
             borderWidth="1px"
             borderRadius="lg"
             overflow="hidden"
@@ -91,7 +89,7 @@ const Item = observer(({ item }) => {
             </Box>
             <Box p={2}>
                 <Flex justifyContent="space-between" alignItems="center">
-                    <Heading fontSize="28px" fontWeight="semibold">
+                    <Heading fontSize={{ base: "20px", md: "28px" }}  fontWeight="semibold">
                         {brandName || 'Loading...'}
                     </Heading>
                     <Flex alignItems="center">
@@ -99,8 +97,8 @@ const Item = observer(({ item }) => {
                         <Image ml={1} width={18} height={18} src={star} alt="Star rating" />
                     </Flex>
                 </Flex>
-                <Text mt={1} noOfLines={1}>{item.name}</Text>
-                <Text fontWeight="bold" mt={2}>${item.price.toFixed(2)}</Text>
+                <Text mt={1} noOfLines={1} fontSize={{ base: "sm", md: "md" }}>{item.name}</Text>
+                <Text fontWeight="bold" mt={2} fontSize={{ base: "sm", md: "md" }}>${item.price.toFixed(2)}</Text>
                 <Button
                     mt={2}
                     backgroundColor="black"
@@ -109,6 +107,7 @@ const Item = observer(({ item }) => {
                     color="white"
                     _hover={{ backgroundColor: "gray.600" }}
                     onClick={handleAddToCart} 
+                    fontSize={{ base: "sm", md: "md" }} 
                 >
                     ADD TO BAG
                 </Button>
@@ -118,3 +117,4 @@ const Item = observer(({ item }) => {
 });
 
 export default Item;
+

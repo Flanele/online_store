@@ -8,7 +8,7 @@ const BrandBar = observer(() => {
     const { item } = useContext(Context);
 
     return (
-        <Flex overflowX="auto" p={3}>
+        <Flex overflowX="auto" flexWrap="wrap" p={3}>
             <BrandFilterItem
                 brand={{ name: "View all" }} 
                 isSelected={Object.keys(item.selectedBrand).length === 0}

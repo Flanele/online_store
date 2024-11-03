@@ -26,36 +26,42 @@ const Cart = observer(() => {
     const isCartEmpty = cartItems.length === 0;
 
     return (
-        <Container maxW="1200px">
+        <Container maxW={{ base: "100%", md: "90%", lg: "1200px" }} p={{ base: 4, md: 6, lg: 8 }}>
             {loading ? (
-                <Text mt={10} textAlign="center" fontSize="24px">Cart is loading...</Text>
+                <Text mt={10} textAlign="center" fontSize={{ base: "20px", md: "24px" }}>Cart is loading...</Text>
             ) : (
-                isCartEmpty ? 
-                    <Box mt={20}>
-                        <Text textAlign="center" fontSize="24px" mb="100px">Your cart is empty...</Text>
+                isCartEmpty ? (
+                    <Box mt={{ base: 10, md: 20 }}>
+                        <Text textAlign="center" fontSize={{ base: "20px", md: "24px" }} mb={{ base: "50px", md: "100px" }}>
+                            Your cart is empty...
+                        </Text>
                         <SwiperProducts />
                     </Box>
-                :
-                <Flex mt={10} gap={5} alignItems="center" flexDirection="column">
-                {cartItems.map((item) => ( 
-                    <CartItem key={item.id} item={item} onClick={removeFromCart} />
-                ))}
-
-                <Box 
-                    w="80%" 
-                    p={4} 
-                    mt={4} 
-                    borderWidth="1px" 
-                    borderRadius="lg" 
-                    textAlign="right"
-                >
-                    <Text textAlign="center" fontSize="lg" fontWeight="bold">
-                        Total Price: ${cart.total.toFixed(2)}
-                    </Text>
-                </Box>
-            </Flex>
-
-
+                ) : (
+                    <Flex 
+                        mt={10} 
+                        gap={5} 
+                        alignItems="center" 
+                        flexDirection="column"
+                        px={{ base: 2, md: 5 }}
+                    >
+                        {cartItems.map((item) => ( 
+                            <CartItem key={item.id} item={item} onClick={removeFromCart} />
+                        ))}
+                        <Box 
+                            w={{ base: "100%", md: "80%" }} 
+                            p={4} 
+                            mt={4} 
+                            borderWidth="1px" 
+                            borderRadius="lg" 
+                            textAlign="right"
+                        >
+                            <Text textAlign="center" fontSize={{ base: "md", md: "lg" }} fontWeight="bold">
+                                Total Price: ${cart.total.toFixed(2)}
+                            </Text>
+                        </Box>
+                    </Flex>
+                )
             )}
         </Container>
     );
