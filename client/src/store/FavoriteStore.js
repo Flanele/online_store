@@ -15,7 +15,6 @@ export default class FavoriteStore {
 
     async loadFavoriteItems() {
         const data = await fetchFavorites(); 
-        console.log("Data loaded:", data);
         this.setFavorites(data); 
         this.saveFavoritesToLocalStorage(); 
     };

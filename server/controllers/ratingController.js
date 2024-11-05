@@ -44,7 +44,7 @@ class RatingController {
             console.error(e);
             return next(ApiError.badRequest('Не удалось добавить рейтинг'));
         }
-    }
+    };
     
     
 

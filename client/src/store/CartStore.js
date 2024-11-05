@@ -10,7 +10,6 @@ export default class CartStore {
 
     loadCartFromLocalStorage() {
         const savedCart = JSON.parse(localStorage.getItem('cart')) || [];
-        console.log("Loaded cart from local storage:", savedCart);
         this.setItems(savedCart); 
     };
 
@@ -20,7 +19,6 @@ export default class CartStore {
 
     async loadCartItems() {
         const data = await fetchCart(); 
-        console.log("Cart data loaded:", data);
         this.setItems(data); 
         this.saveCartToLocalStorage();
     };
@@ -36,7 +34,6 @@ export default class CartStore {
     };
 
     setItems(items) {
-        console.log("Setting cart items:", items);
         this._items = items.cart_items || [];
         this.saveCartToLocalStorage();
     };

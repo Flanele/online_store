@@ -24,7 +24,7 @@ class FavoriteController {
             return next(ApiError.badRequest('Не удалось получить избранное пользователя'));
         }
         
-    }
+    };
 
     async addToFavorites(req, res, next) {
         try {
@@ -55,7 +55,7 @@ class FavoriteController {
             console.error(error);
             return next(ApiError.badRequest('Не удалось добавить товар в избранное'));
         }
-    }
+    };
     
 
     async removeFavorite (req, res, next) {
@@ -79,7 +79,7 @@ class FavoriteController {
         } catch (e) {
             return next(ApiError.badRequest(e))
         }
-    }
+    };
 
 };
 

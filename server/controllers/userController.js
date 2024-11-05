@@ -7,7 +7,7 @@ const generateJwt = (id, email, role) => {
     return jwt.sign({id, email, role}, 
         process.env.SECRET_KEY,
         {expiresIn: '24h'}
-    )
+    );
 };
 
 class UserController {
@@ -33,7 +33,7 @@ class UserController {
             console.error(error); 
             return next(ApiError.internal('Ошибка при регистрации')); 
         }
-    }
+    };
 
     async login (req, res, next) {
         try {
@@ -56,7 +56,7 @@ class UserController {
             return next(ApiError.internal('Ошибка при авторизации'));
         }
         
-    }
+    };
 
     async check (req, res, next) {
         try {
@@ -67,7 +67,7 @@ class UserController {
             return next(ApiError.internal('Что-то пошло не так во время проверки аутентификации...'));
         }
         
-    }
+    };
 };
 
 module.exports = new UserController();
